@@ -21,7 +21,7 @@ pip install -r requirements.txt
 Setup CI/CD Pipeline in Heruko
 
 1. Heruko_email = "maheshmouli225@gmail.com"
-2. Heruko_API_key = "69dfd3e7-d69d-4c46-96b0-b8b384d60d83"
+2. Heruko_API_key = "yourherukoAPIKey"
 3. Heruko_App_Name = "house-price-prediction"
 
 Build Docker Image
