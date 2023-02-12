@@ -15,7 +15,7 @@ conda activate venv or conda activate venv/
 
 Installing all the packages:
 ```
-pip install -r requirements.txt
+python setup.py install
 ```
 
 Setup CI/CD Pipeline in Heruko
@@ -46,3 +46,5 @@ To stop docker container
 ```
 docker stop <container_ID>
 ```
+
+I
