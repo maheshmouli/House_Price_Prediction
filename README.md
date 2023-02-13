@@ -15,7 +15,7 @@ conda activate venv or conda activate venv/
 
 Installing all the packages:
 ```
-python setup.py install
+pip install -r requirements.txt
 ```
 
 Setup CI/CD Pipeline in Heruko
