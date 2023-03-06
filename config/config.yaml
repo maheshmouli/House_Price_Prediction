@@ -7,8 +7,8 @@ data_ingestion_config:
   raw_data_dir: raw_data
   tgz_download_dir: tgz_data
   ingested_dir: ingested_data
-  ingested_train: train
-  ingested_test: test
+  ingested_train_dir: train
+  ingested_test_dir: test
 
 data_validation_config:
   schema_file_name: schema.yaml
