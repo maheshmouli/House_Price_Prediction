@@ -13,7 +13,7 @@ from sklearn.model_selection import StratifiedShuffleSplit
 class DataIngestion:
     def __init__(self, data_ingestion_config:DataIngestionConfig):
         try:
-            logging.info(f"{'='*20} Data Ingestion log starte.{'='*20}")
+            logging.info(f"{'='*20} Data Ingestion log started.{'='*20}")
             self.data_ingestion_config = data_ingestion_config
         except Exception as e:
             raise Exception_Handling(e, sys) # type: ignore
@@ -79,7 +79,7 @@ class DataIngestion:
             split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
             for train_index, test_index in split.split(housing_df, housing_df["income_cat"]):
                 strat_train_set = housing_df.loc[train_index].drop(["income_cat"],axis=1)
-                strat_test_set = housing_df.loc[test_index].drop(["incomce_cat"],axis=1)
+                strat_test_set = housing_df.loc[test_index].drop(["income_cat"],axis=1)
 
             train_file_path = os.path.join(self.data_ingestion_config.ingested_train_dir, file_name)
             test_file_path = os.path.join(self.data_ingestion_config.ingested_test_dir, file_name)
