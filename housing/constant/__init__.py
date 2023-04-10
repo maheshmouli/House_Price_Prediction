@@ -29,6 +29,8 @@ DATA_VALIDATION_CONFIG_KEY = "data_validation_config"
 DATA_VALIDATION_ARTIFACT_DIR_KEY = "data_validation"
 DATA_VALIDATION_SCHEMA_DIR_KEY = "schema_dir"
 DATA_VALIDATION_SCHEMA_NAME = "schema_file_name"
+DATA_VALIDATION_REPORT_FILE_NAME_KEY = "report_file_name"
+DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY = "report_page_file_name"
 
 # Data Transformation variables
 DATA_TRANSFORMATION_CONFIG_KEY = "data_transformation_config"

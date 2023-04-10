@@ -18,10 +18,11 @@ class Exception_Handling(Exception):
         error_detail -> Error Object from sys module
         """
         _,_, exec_traceback = error_details.exc_info()
-        error_lineno = exec_traceback.tb_frame.f_lineno
+        exception_block_lineno = exec_traceback.tb_frame.f_lineno
+        try_block_line_number = exec_traceback.tb_lineno
         error_filename = exec_traceback.tb_frame.f_code.co_filename
 
-        error_message = f"Error occurred in script: {error_filename} at line number: {error_lineno} error message: {error_message}"
+        error_message = f"Error occurred in script: {error_filename} at line number: {try_block_line_number}and exception block Line message: [{exception_block_lineno}] error message:{error_message}"
 
         return error_message
 
