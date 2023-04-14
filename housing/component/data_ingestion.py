@@ -13,7 +13,7 @@ from sklearn.model_selection import StratifiedShuffleSplit
 class DataIngestion:
     def __init__(self, data_ingestion_config:DataIngestionConfig):
         try:
-            logging.info(f"{'='*20} Data Ingestion log started.{'='*20}")
+            logging.info(f"{'='*10} Data Ingestion log started.{'='*10}")
             self.data_ingestion_config = data_ingestion_config
         except Exception as e:
             raise Exception_Handling(e, sys) # type: ignore
@@ -114,4 +114,4 @@ class DataIngestion:
             raise Exception_Handling(e, sys) from e
         
     def __del__(self):
-        logging.info(f"{'='*20}Data Ingestion log completed.{'='*20} \n\n")
+        logging.info(f"{'='*10}Data Ingestion log completed.{'='*10} \n\n")
