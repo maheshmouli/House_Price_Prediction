@@ -4,7 +4,7 @@ pandas
 scikit-learn
 numpy
 PyYAML
-evidently
+evidently==0.2.8
 dill
 matplotlib
 -e .

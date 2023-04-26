@@ -119,10 +119,14 @@ class Configuration:
                 model_training_info[MODEL_TRAINING_MODEL_DIR_KEY],
                 model_training_info[MODEL_TRAINING_MODEL_FILENAME_KEY]
             )
+
+            model_config_file_path = os.path.join(model_training_info[MODEL_TRAINING_MODEL_CONFIG_DIR_KEY],
+            model_training_info[MODEL_TRAINING_MODEL_CONFIG_FILE_NAME])
             base_accuracy = model_training_info[MODEL_TRAINING_BASE_ACCURACY_KEY]
             model_training_config = ModelTrainConfig(
                 trained_model_file_path= trained_model_file_path,
-                base_accuracy= base_accuracy
+                base_accuracy= base_accuracy,
+                model_config_file_path=model_config_file_path
             )
             logging.info("Model Training Config: {}".format(model_training_config))
             return model_training_config
