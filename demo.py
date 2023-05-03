@@ -8,7 +8,7 @@ def main():
     try:
         pipeline = Pipeline()
         pipeline.run_pipeline()
-        logging.info("Execution Completed")
+        logging.info("Main Execution Completed")
         # data_validation_config = Configuration().get_data_transformation_config()
         # print(data_validation_config)
         # schema_file_path = r"config\schema.yaml"
