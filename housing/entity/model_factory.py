@@ -127,7 +127,7 @@ class ModelFactory:
     def class_for_name(module_name: str, class_name: str):
         try:
             module = importlib.import_module(module_name)
-            logging.info(f"Executing command: from {module} import {class_name}")
+            logging.info(f"Executing the command: from {module} import {class_name}")
             class_ref = getattr(module, class_name)
             return class_ref
         except Exception as e:
