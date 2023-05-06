@@ -130,6 +130,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# Saved Model
-saved_models/

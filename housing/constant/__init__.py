@@ -76,3 +76,7 @@ MODEL_PATH_KEY = "model_path"
 # Model Pusher Variables
 MODEL_PUSHER_CONFIG_KEY = "push_model_config"
 MODEL_PUSHER_MODEL_EXPORT_KEY = "model_export_dir"
+
+# Experiment Variables
+EXPERIMENT_DIR_NAME = "experiment"
+EXPERIMENT_FILE_NAME = "experiment.csv"

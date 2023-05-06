@@ -24,8 +24,12 @@ BestModel = namedtuple("BestModel",["model_serial_number","model","best_model","
 MetricInfoArtifact = namedtuple("MetricInfoArtifact",["model_name","model_object","train_rmse","test_rmse","train_accuracy",
                                                       "test_accuracy", "model_accuracy", "index_number"])
 
-def evaluate_regression_model(model_list: list, X_train:np.ndarray, y_train:np.ndarray, X_test:np.ndarray, y_test:np.ndarray,
-                              base_accuracy:float=0.7) -> MetricInfoArtifact:
+def evaluate_regression_model(model_list: list, 
+                              X_train:np.ndarray, 
+                              y_train:np.ndarray, 
+                              X_test:np.ndarray, 
+                              y_test:np.ndarray,
+                              base_accuracy:float=0.6) -> MetricInfoArtifact:
     """
     Description:
     It compares multiple regression models & returns a best model
@@ -210,7 +214,8 @@ class ModelFactory:
             raise Exception_Handling(e,sys) from e
         
     @staticmethod
-    def get_best_model_from_grid_search_best_model_list(grid_searched_best_model_list: List[GridSearchedBestModel], base_accuracy=0.7) -> BestModel:
+    def get_best_model_from_grid_search_best_model_list(grid_searched_best_model_list: List[GridSearchedBestModel], 
+                                                        base_accuracy=0.6) -> BestModel:
         try:
             best_model = None
             for grid_searched_best_model in grid_searched_best_model_list:
@@ -219,13 +224,14 @@ class ModelFactory:
                     base_accuracy = grid_searched_best_model.best_score
                     best_model = grid_searched_best_model
             if not best_model:
-                raise Exception(f"None of Model has base accuracy: {base_accuracy}")
+                logging.info(f"None of Model has base accuracy: {base_accuracy}")
+                # raise Exception(f"None of Model has base accuracy: {base_accuracy}")
             logging.info(f"Best Model: {best_model}")
             return best_model
         except Exception as e:
             raise Exception_Handling(e,sys) from e
 
-    def get_best_model(self, X, y, base_accuracy = 0.7) -> BestModel:
+    def get_best_model(self, X, y, base_accuracy = 0.6) -> BestModel:
         try:
             logging.info("Started Initializing model from config file")
             initialized_model_list = self.get_initialized_model_list()

@@ -69,10 +69,10 @@ class ModelTrainer:
             logging.info(f"Best Model Found on both training and testing dataset")
 
             preprocessing_obj = load_object(file_path=self.data_transformation_artifact.preprocessed_object_file_path)
-            model_object = metric_info.model_object
+            modelobject = metric_info.model_object
 
             trained_model_file_path = self.model_trainer_config.trained_model_file_path
-            housing_model = HousingEstimatorModel(preprocessing_object=preprocessing_obj, trained_model_object=model_object)
+            housing_model = HousingEstimatorModel(preprocessing_object=preprocessing_obj, trained_model_object=modelobject)
             logging.info(f"Saving Model at path: {trained_model_file_path}")
             save_object(file_path=trained_model_file_path, obj=housing_model)
 
