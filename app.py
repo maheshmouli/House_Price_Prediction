@@ -1,5 +1,6 @@
 import sys,os
-from flask import Flask
+import json
+from flask import Flask, request
 from housing.logger import logging
 from housing.exception import Exception_Handling
 from housing.constant import CONFIG_DIR, get_current_time_stamp
@@ -19,6 +20,8 @@ MODEL_CONFIG_FILE_PATH = os.path.join(ROOT_DIR, CONFIG_DIR, "model.yaml")
 LOG_DIR = os.path.join(ROOT_DIR, LOG_FOLDER_NAME)
 PIPELINE_DIR = os.path.join(ROOT_DIR, PIPELINE_FOLDER_NAME)
 MODEL_DIR = os.path .join(ROOT_DIR, SAVED_MODELS_DIR_NAME)
+HOUSING_DATA_KEY = "housing_data"
+MEDIAN_HOUSE_VALUE_KEY = "median_house_value"
 
 app = Flask(__name__)
 
@@ -83,6 +86,105 @@ def train():
     }
     return render_template("train.html", context=context)
 
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    context = {
+        HOUSING_DATA_KEY: None,
+        MEDIAN_HOUSE_VALUE_KEY: None
+    }
+    if request.method == 'POST':
+        longitude = float(request.form['longitude'])
+        lattitude = float(request.form['lattitude'])
+        housing_median_age = float(request.form['housing_median_age'])
+        total_rooms = float(request.form['total_rooms'])
+        total_bedrooms = float(request.form['total_bedrooms'])
+        population = float(request.form['population'])
+        households = float(request.form['households'])
+        median_income = float(request.form['median_income'])
+        ocean_proximity = request.form['ocean_proximity']
+        housing_data = HousingData(
+            longitude=longitude,
+            lattitude=lattitude,
+            housing_median_age=housing_median_age,
+            total_rooms=total_rooms,
+            total_bedrooms=total_bedrooms,
+            population=population,
+            households=households,
+            median_income=median_income,
+            ocean_proximity=ocean_proximity,
+        )
+        housing_df = housing_data.get_housing_data_dataframe()
+        housing_predictor = HousingPredictor(model_dir=MODEL_DIR)
+        median_house_value = housing_predictor.predict(X=housing_df)
+        context = {
+            HOUSING_DATA_KEY: housing_data.get_housing_data_dict(),
+            MEDIAN_HOUSE_VALUE_KEY: median_house_value
+        }
+        return render_template("predict.html", context=context)
+    return render_template("predict.html", context=context)
+
+@app.route('/saved_models', defaults={'req_path': 'saved_models'})
+@app.route('/saved_models/<path:req_path>')
+def saved_models_dir(req_path):
+    os.makedirs("saved_models", exist_ok=True)
+    print(f"req_path: {req_path}")
+    abs_path = os.path.join(req_path)
+    print(abs_path)
+    if not os.path.exists(abs_path):
+        return abort(404)
+    
+    if os.path.isfile(abs_path):
+        return send_file(abs_path)
+    
+    files = {
+        os.path.join(abs_path, file): file for file in os.listdir(abs_path)
+    }
+
+    result = {
+        "files":files,
+        "parent_folder": os.path.dirname(abs_path),
+        "parent_label": abs_path
+    }
+    return render_template('saved_models_files.html', result=result)
+
+@app.route('/update_model_config', methods=['GET', 'POST'])
+def update_model_config():
+    try:
+        if request.method == 'POST':
+            model_config = request.form['new_model_config']
+            model_config = model_config.replace("'", '"')
+            # print(model_config)
+            model_config = json.loads(model_config)
+            write_yaml_file(file_path=MODEL_CONFIG_FILE_PATH, data=model_config)
+        model_config = read_yaml_file(file_path=MODEL_CONFIG_FILE_PATH)
+        return render_template('update_model.html', result={"model_config": model_config})
+    except Exception as e:
+        logging.exception(e)
+        return str(e)
+    
+@app.route(f'/logs', defaults={'req_path':f'{LOG_FOLDER_NAME}'})
+@app.route(f'/{LOG_FOLDER_NAME}/<path:req_path>')
+def render_log_dir(req_path):
+    os.makedirs(LOG_FOLDER_NAME, exist_ok=True)
+    logging.info(f"req_path: {req_path}")
+    abs_path = os.path.join(req_path)
+    
+    if not os.path.exists(abs_path):
+        return abort(404)
+    
+    if os.path.isfile(abs_path):
+        log_df = get_log_dataframe(abs_path)
+        context = {"log": log_df.to_html(classes="table-striped", index=False)}
+        return render_template('log.html', context=context)
+    
+    files = {os.path.join(abs_path, file): file for file in os.listdir(abs_path)}
+
+    result = {
+        "files":files,
+        "parent_folder": os.path.dirname(abs_path),
+        "parent_label": abs_path
+    }
+    return render_template('log_files.html', result=result)
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run()

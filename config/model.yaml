@@ -28,11 +28,13 @@ model_selection:
         - 12
       n_estimators:
         - 100
+        - 200
       oob_score:
         - true
         - false
       max_depth:
         - 4
+        - 6
 
   # module_2:
   #   class: SVR

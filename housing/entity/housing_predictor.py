@@ -30,6 +30,13 @@ class HousingData:
         except Exception as e:
             raise Exception_Handling(e, sys) from e
         
+    def get_housing_data_dataframe(self):
+        try:
+            housing_input_dict = self.get_housing_data_dict()
+            return pd.DataFrame(housing_input_dict)
+        except Exception as e:
+            raise Exception_Handling(e, sys) from e
+        
     def get_housing_data_dict(self):
         try:
             input_data = {
